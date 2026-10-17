@@ -32,6 +32,7 @@ The backend runs on a free Render instance. After 15 minutes of inactivity it sl
 - **Filters, search and sort:** filter by status, priority, project and due date range. Search by title. Sort by due date, priority or created date. All of these work together in one query.
 - **Dashboard:** total, completed, pending and overdue counts, tasks due today and this week, and a progress bar per project.
 - **UX states:** empty, loading and error states on every page.
+- **Dark mode:** toggle in the navbar, saved in the browser and defaults to the system setting.
 
 ## Folder Structure
 
