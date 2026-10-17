@@ -38,7 +38,7 @@ export default function Register() {
         {error && <p style={{ color: 'red' }}>{error}</p>}
         <button type="submit" disabled={loading}>{loading ? 'Please wait...' : 'Register'}</button>
       </form>
-      <p>Account hai? <Link to="/login">Login</Link></p>
+      <p>Already have an account?<Link to="/login">Login</Link></p>
     </div>
   );
 }

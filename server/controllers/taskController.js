@@ -3,7 +3,7 @@ import Project from '../models/Project.js';
 
 const PRIORITY_RANK = { high: 3, medium: 2, low: 1 };
 
-// Search text me special characters se regex na toote
+// Escape special characters so the search text cannot break the regex
 const escapeRegex = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 
 const ownsProject = (projectId, userId) =>
@@ -25,7 +25,7 @@ export const getTasks = async (req, res) => {
     order,
   } = req.query;
 
-  // Saare filters ek hi object me, isliye combined kaam karte hain
+  // All filters live in one object, so they work combined
   const filter = { user: req.user._id };
   if (status) filter.status = status;
   if (priority) filter.priority = priority;
@@ -61,7 +61,7 @@ export const getTasks = async (req, res) => {
     const x = getVal(a);
     const y = getVal(b);
     if (x === null && y === null) return 0;
-    if (x === null) return 1; // due date nahi hai to hamesha last me
+    if (x === null) return 1; //  tasks without a due date always go last
     if (y === null) return -1;
     return (x - y) * dir;
   });
@@ -82,7 +82,7 @@ export const createTask = async (req, res) => {
   }
 
   const task = await Task.create({
-    user: req.user._id, // owner token se, body se kabhi nahi
+    user: req.user._id, // the owner comes from the token, never from the body
     project,
     title,
     description,
@@ -98,7 +98,7 @@ export const createTask = async (req, res) => {
   });
 };
 
-// PUT /api/tasks/:id  (project badalna = task move karna)
+// PUT /api/tasks/:id  ((changing the project moves the task))
 export const updateTask = async (req, res) => {
   const updates = {};
   ['title', 'description', 'status', 'priority', 'dueDate', 'project'].forEach(

@@ -5,7 +5,7 @@ export const getInitialTheme = () => {
     const saved = localStorage.getItem(KEY);
     if (saved === 'light' || saved === 'dark') return saved;
   } catch {
-    // localStorage band ho to system setting use hogi
+    // if localStorage is blocked, the system setting is used
   }
   return window.matchMedia?.('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
 };

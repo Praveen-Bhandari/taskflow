@@ -1,7 +1,7 @@
 import Project from '../models/Project.js';
 import Task from '../models/Task.js';
 
-// Project ke saath task count aur completion % jodne ka helper
+//Helper that adds task count and completion % to a project
 const withStats = (project, stat) => {
   const total = stat?.total || 0;
   const done = stat?.done || 0;
@@ -19,7 +19,7 @@ export const getProjects = async (req, res) => {
     .sort({ createdAt: -1 })
     .lean();
 
-  // Ek hi query me saare projects ke task counts
+  //  Task counts for all projects in a single query
   const stats = await Task.aggregate([
     { $match: { user: req.user._id } },
     {
@@ -115,7 +115,7 @@ export const updateProject = async (req, res) => {
   });
 };
 
-// DELETE /api/projects/:id (cascade: tasks bhi delete)
+// DELETE /api/projects/:id ((cascade: tasks are deleted too))
 export const deleteProject = async (req, res) => {
   const project = await Project.findOneAndDelete({
     _id: req.params.id,

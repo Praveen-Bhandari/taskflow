@@ -18,7 +18,7 @@ export const getDashboard = async (req, res, next) => {
     const user = req.user._id;
     const today = startOfTodayUTC();
     const tomorrow = addDays(today, 1);
-    const weekEnd = addDays(today, 8); // aaj se agle 7 din, poora 7th din included
+    const weekEnd = addDays(today, 8); // Today's date at UTC midnight (same logic as notInPast in createTask
 
     const notDone = { status: { $ne: 'done' } };
     const populateProject = { path: 'project', select: 'name color' };
@@ -62,7 +62,7 @@ export const getDashboard = async (req, res, next) => {
       ]),
     ]);
 
-    // Har project ke liye progress (task na ho to bhi project list me aayega)
+    //  Progress for every project (projects with no tasks are included too)
     const statMap = new Map(projectStats.map((s) => [String(s._id), s]));
     const projectProgress = projects.map((p) => {
       const s = statMap.get(String(p._id));

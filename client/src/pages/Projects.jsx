@@ -30,7 +30,7 @@ function ProjectForm({ initial, onSubmit, onCancel, submitLabel }) {
     try {
       await onSubmit(form);
     } catch (err) {
-      setError(getErrorMessage(err, 'Project save nahi hua'));
+      setError(getErrorMessage(err, 'Could not save the project'));
       setSaving(false);
     }
   };
@@ -82,7 +82,7 @@ export default function Projects() {
     try {
       setProjects(await fetchProjects());
     } catch (err) {
-      setError(getErrorMessage(err, 'Projects load nahi hue'));
+      setError(getErrorMessage(err, 'Could not load projects'));
     } finally {
       setLoading(false);
     }
@@ -106,7 +106,7 @@ export default function Projects() {
 
   const handleDelete = async (p) => {
     const ok = window.confirm(
-      `"${p.name}" delete karna hai? Iske ${p.taskCount} task(s) bhi delete ho jayenge.`
+      `Delete "${p.name}"? Its ${p.taskCount} task(s) will also be deleted.`
     );
     if (!ok) return;
     setBusyId(p._id);
@@ -114,7 +114,7 @@ export default function Projects() {
       await deleteProject(p._id);
       await load();
     } catch (err) {
-      setError(getErrorMessage(err, 'Delete nahi hua'));
+      setError(getErrorMessage(err, 'Could not delete the project'));
     } finally {
       setBusyId(null);
     }
@@ -151,9 +151,9 @@ export default function Projects() {
 
       {!loading && !error && projects.length === 0 && !showCreate && (
         <div className="panel empty">
-          <p>Abhi koi project nahi hai.</p>
+          <p>No projects yet.</p>
           <button className="btn" onClick={() => setShowCreate(true)}>
-            Pehla project banao
+            Create your first project
           </button>
         </div>
       )}

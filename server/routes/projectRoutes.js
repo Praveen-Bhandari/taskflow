@@ -12,7 +12,7 @@ import { validate } from '../middleware/validate.js';
 
 const router = express.Router();
 
-// Is file ke saare routes protected hain
+//  All routes in this file are protected
 router.use(protect);
 
 const idRule = param('id').isMongoId().withMessage('Invalid project id');

@@ -8,7 +8,7 @@ api.interceptors.request.use((config) => {
   return config;
 });
 
-// Token expire/invalid ho to login pe bhej do
+//If the token is expired or invalid, send the user to login
 api.interceptors.response.use(
   (res) => res,
   (err) => {

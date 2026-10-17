@@ -19,7 +19,7 @@ const PRIORITIES = ['low', 'medium', 'high'];
 
 const idRule = param('id').isMongoId().withMessage('Invalid task id');
 
-// Create ke time due date aaj ya uske baad ki honi chahiye
+// On create, the due date must be today or later
 const notInPast = (value) => {
   const today = new Date();
   today.setUTCHours(0, 0, 0, 0);

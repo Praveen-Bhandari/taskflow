@@ -48,11 +48,10 @@ const taskSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-// Index 1: project ke tasks (task count, progress, cascade delete)
-taskSchema.index({ user: 1, project: 1, status: 1 });
+// Index 1: tasks of a project (task count, progress, cascade delete)
 // Index 2: due date sort/filter, overdue, due today/this week
 taskSchema.index({ user: 1, dueDate: 1 });
-// Index 3: status + priority filters aur created date sort
+// Index 3:Index 3: status + priority filters and created date sort
 taskSchema.index({ user: 1, status: 1, priority: 1, createdAt: -1 });
 
 export default mongoose.model('Task', taskSchema);

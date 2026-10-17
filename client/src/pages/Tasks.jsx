@@ -59,7 +59,7 @@ function TaskForm({ initial, projects, onSubmit, onCancel, submitLabel, isCreate
     try {
       await onSubmit(form);
     } catch (err) {
-      setError(getErrorMessage(err, 'Task save nahi hua'));
+      setError(getErrorMessage(err, 'Could not save the task'));
       setSaving(false);
     }
   };
@@ -155,9 +155,9 @@ export default function Tasks() {
         Object.entries(query).filter(([, v]) => v !== '')
       );
       const data = await fetchTasks(params);
-      if (id === reqId.current) setTasks(data); // purani request ka jawab ignore
+      if (id === reqId.current) setTasks(data); // ignore the response of an outdated request
     } catch (err) {
-      if (id === reqId.current) setError(getErrorMessage(err, 'Tasks load nahi hue'));
+      if (id === reqId.current) setError(getErrorMessage(err, ' Could not load tasks'));
     } finally {
       if (id === reqId.current) setLoading(false);
     }
@@ -170,7 +170,7 @@ export default function Tasks() {
   useEffect(() => {
     fetchProjects()
       .then(setProjects)
-      .catch((err) => setActionError(getErrorMessage(err, 'Projects load nahi hue')));
+      .catch((err) => setActionError(getErrorMessage(err, 'Could not load projects')));
   }, []);
 
   const setFilter = (e) => setFilters({ ...filters, [e.target.name]: e.target.value });
@@ -189,7 +189,7 @@ export default function Tasks() {
   };
 
   const handleUpdate = async (id, form) => {
-    await updateTask(id, form); // dueDate '' ho to server null kar deta hai
+    await updateTask(id, form); // an empty dueDate makes the server store null
     setEditingId(null);
     await load();
   };
@@ -201,21 +201,21 @@ export default function Tasks() {
       await updateTaskStatus(t._id, status);
       await load();
     } catch (err) {
-      setActionError(getErrorMessage(err, 'Status update nahi hua'));
+      setActionError(getErrorMessage(err, 'Could not update the status'));
     } finally {
       setBusyId(null);
     }
   };
 
   const handleDelete = async (t) => {
-    if (!window.confirm(`"${t.title}" delete karna hai?`)) return;
+    if (!window.confirm(`Delete "${t.title}"?`)) return;
     setBusyId(t._id);
     setActionError('');
     try {
       await deleteTask(t._id);
       await load();
     } catch (err) {
-      setActionError(getErrorMessage(err, 'Delete nahi hua'));
+      setActionError(getErrorMessage(err, 'Could not delete the task'));
     } finally {
       setBusyId(null);
     }
@@ -245,7 +245,7 @@ export default function Tasks() {
 
       {noProjects && (
         <p className="muted" style={{ marginBottom: 12 }}>
-          Task banane ke liye pehle Projects page pe ek project banao.
+          Create a project on the Projects page before adding tasks.
         </p>
       )}
 
@@ -326,15 +326,15 @@ export default function Tasks() {
         <div className="panel empty">
           <p>
             {hasFilters
-              ? 'In filters se koi task match nahi hua.'
-              : 'Abhi koi task nahi hai.'}
+              ? 'No tasks match these filters.'
+              : 'No tasks yet.'}
           </p>
           {hasFilters ? (
             <button className="btn btn-outline" onClick={clearFilters}>Clear filters</button>
           ) : (
             !noProjects && (
               <button className="btn" onClick={() => setShowCreate(true)}>
-                Pehla task banao
+                Create your first task
               </button>
             )
           )}

@@ -61,7 +61,7 @@ export default function Dashboard() {
     } catch (err) {
       setError(
         err.response?.data?.message ||
-          'Dashboard load nahi hua. Server chal raha hai ya nahi check karo.'
+          'Could not load the dashboard. Please check that the server is running.'
       );
     } finally {
       setLoading(false);
@@ -101,7 +101,7 @@ export default function Dashboard() {
       <section className="panel">
         <h3>Project progress</h3>
         {projectProgress.length === 0 ? (
-          <p className="muted">Abhi koi project nahi hai. Pehle ek project banao.</p>
+          <p className="muted">No projects yet. Create a project first.</p>
         ) : (
           projectProgress.map((p) => (
             <div key={p._id} className="progress-item">
@@ -129,12 +129,12 @@ export default function Dashboard() {
         <TaskList
           title="Due today"
           tasks={todayTasks}
-          emptyText="Aaj koi task due nahi hai."
+          emptyText="No tasks due today."
         />
         <TaskList
           title="Due this week"
           tasks={weekTasks}
-          emptyText="Is hafte koi task due nahi hai."
+          emptyText="No tasks due this week."
         />
       </div>
     </div>
